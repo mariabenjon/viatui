@@ -1,0 +1,11 @@
+version: "3.0"
+
+services:
+  viatui:
+    build: ./
+    volumes:
+      - ./:/app
+    environment:
+      - DISPLAY=:1
+    privileged: true
+
