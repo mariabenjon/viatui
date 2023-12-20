@@ -77,9 +77,30 @@ if __name__ == '__main__':
   #screenshot = create_screenshot_with_grid(100)
   #screenshot.save('chromium-nix-screenshots/posh-9.png')
 
-  # Click on your closet
-  pyautogui.moveTo(850, 525)
+  ## Click on your closet
+  #pyautogui.moveTo(850, 525)
+  #pyautogui.click()
+  #time.sleep(5)
+  #screenshot = create_screenshot_with_grid(100)
+  #screenshot.save('chromium-nix-screenshots/posh-10.png')
+
+  ## Share to followers button
+  #pyautogui.moveTo(800, 400)
+  #pyautogui.click()
+  #time.sleep(5)
+  #screenshot = create_screenshot_with_grid(100)
+  #screenshot.save('chromium-nix-screenshots/posh-11.png')
+
+  ## Share all
+  #pyautogui.moveTo(375, 375)
+  #pyautogui.click()
+  #time.sleep(5)
+  #screenshot = create_screenshot_with_grid(100)
+  #screenshot.save('chromium-nix-screenshots/posh-12.png')
+
+  # Share to followers
+  pyautogui.moveTo(900, 290)
   pyautogui.click()
   time.sleep(5)
   screenshot = create_screenshot_with_grid(100)
-  screenshot.save('chromium-nix-screenshots/posh-10.png')
+  screenshot.save('chromium-nix-screenshots/posh-13.png')
