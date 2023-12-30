@@ -108,8 +108,6 @@ if __name__ == '__main__':
   current_datetime = datetime.now()
   formatted_datetime = current_datetime.strftime("%Y-%m-%d-%H:%M:%S")
 
-  screenshot.save(f"chromium-nix-screenshots/posh-{formatted_datetime}.png")
-
   # Wait until likely finished
   time.sleep(20)
   screenshot = create_screenshot_with_grid(100)
