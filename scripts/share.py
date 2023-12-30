@@ -98,15 +98,15 @@ if __name__ == '__main__':
   screenshot = create_screenshot_with_grid(100)
   screenshot.save('chromium-nix-screenshots/posh-11.png')
 
-  # Monitor progress
-  time.sleep(10)
-  screenshot = create_screenshot_with_grid(100)
-  screenshot.save('chromium-nix-screenshots/posh-12.png')
-
   # Format the date and time as a string in the format "yyyy-mm-dd-h-m"
   # Get the current date and time
   current_datetime = datetime.now()
   formatted_datetime = current_datetime.strftime("%Y-%m-%d-%H:%M:%S")
+
+  # Monitor progress
+  time.sleep(10)
+  screenshot = create_screenshot_with_grid(100)
+  screenshot.save(f"chromium-nix-screenshots/posh-{formatted_datetime}.png")
 
   # Wait until likely finished
   time.sleep(20)
