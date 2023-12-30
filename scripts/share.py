@@ -111,7 +111,7 @@ if __name__ == '__main__':
   screenshot.save(f"chromium-nix-screenshots/posh-{formatted_datetime}.png")
 
   # Wait until likely finished
-  time.sleep(10)
+  time.sleep(20)
   screenshot = create_screenshot_with_grid(100)
   screenshot.save(f"chromium-nix-screenshots/posh-{formatted_datetime}.png")
 
