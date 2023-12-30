@@ -4,7 +4,7 @@ import os
 import argparse
 from modules.screenshot_grid import create_screenshot_with_grid
 from modules.screenshot_grid import create_screenshot
-from modules.extended_screenshot_grid import create_image_with_extended_grid
+from modules.shifted_screenshot_grid import create_image_with_shifted_grid
 from modules.get_from_viatuix_config import get_from_viatuix_config
 from modules.zoom_image import zoom_image
 
@@ -34,6 +34,6 @@ if __name__ == '__main__':
 
     zoom_image(filename, zoomed_filename, (500, 100), (700, 300))
 
-    screenshot_zoomed_with_grid = create_image_with_extended_grid(zoomed_filename, (500, 100), (700, 300), 50)
+    screenshot_zoomed_with_grid = create_image_with_shifted_grid(zoomed_filename, (500, 100), (700, 300), 50)
 
     screenshot_zoomed_with_grid.save(zoomed_with_grid_filename)
