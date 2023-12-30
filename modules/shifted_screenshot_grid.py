@@ -9,60 +9,69 @@ def load_image(image_path):
     """
     return Image.open(image_path)
 
-def draw_shifted_grid(image, origin, grid_size):
+def draw_shifted_grid(image, external_origin, grid_size):
     """
-    Draws a grid on the image as if it's part of a larger grid, with the given origin.
+    Draws a grid on the image as if it's part of a larger grid, with the external origin.
 
     Args:
     image: PIL Image object
-    origin: Origin (x, y) of the larger grid
+    external_origin: External origin (x, y) of the larger grid
     grid_size: Size of the grid cells
     """
     draw = ImageDraw.Draw(image)
     width, height = image.size
-    start_x, start_y = origin
+    origin_x, origin_y = external_origin
 
-    # Adjust start point for the grid
-    for x in range(-start_x % grid_size, width, grid_size):
+    # Draw grid lines based on the external origin
+    x = -origin_x % grid_size
+    while x < width:
         draw.line(((x, 0), (x, height)), fill=128)
-    for y in range(-start_y % grid_size, height, grid_size):
+        x += grid_size
+
+    y = -origin_y % grid_size
+    while y < height:
         draw.line(((0, y), (width, y)), fill=128)
+        y += grid_size
 
     del draw
 
-def label_shifted_grid_vertices(image, origin, grid_size):
+def label_shifted_grid_vertices(image, external_origin, grid_size):
     """
-    Labels the vertices of the shifted grid on the image.
+    Labels the vertices of the shifted grid on the image, relative to the external origin.
 
     Args:
     image: PIL Image object
-    origin: Origin (x, y) of the larger grid
+    external_origin: External origin (x, y) of the larger grid
     grid_size: Size of the grid cells
     """
     draw = ImageDraw.Draw(image)
     font = ImageFont.load_default()
     width, height = image.size
-    start_x, start_y = origin
+    origin_x, origin_y = external_origin
 
-    for x in range(-start_x % grid_size, width, grid_size):
-        for y in range(-start_y % grid_size, height, grid_size):
-            grid_x = x + start_x - (-start_x % grid_size)
-            grid_y = y + start_y - (-start_y % grid_size)
-            label = f"({grid_x},{grid_y})"
+    x = -origin_x % grid_size
+    while x < width:
+        y = -origin_y % grid_size
+        while y < height:
+            label_x = x + origin_x - (-origin_x % grid_size)
+            label_y = y + origin_y - (-origin_y % grid_size)
+            label = f"({label_x},{label_y})"
             draw.text((x + 5, y + 5), label, fill="red", font=font)
+            y += grid_size
+        x += grid_size
 
     del draw
 
-def create_image_with_shifted_grid(image_path, origin, grid_size):
+def create_image_with_shifted_grid(image_path, external_origin, grid_size):
     """
-    Loads an image and creates a shifted grid with labeled vertices.
+    Loads an image and creates a shifted grid with labeled vertices, relative to an external origin.
 
     Args:
     image_path: Path to the image file
-    origin: Origin (x, y) of the larger grid
+    external_origin: External origin (x, y) of the larger grid
     grid_size: Size of the grid cells
     """
     image = load_image(image_path)
-    draw_shifted_grid(image, origin, grid_size)
-    label_shifted_grid_vertices(image, origin, grid_size)
+    draw_shifted_grid(image, external_origin, grid_size)
+    label_shifted_grid_vertices(image, external_origin, grid_size)
     return image
