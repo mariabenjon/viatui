@@ -16,7 +16,7 @@ if __name__ == '__main__':
   screenshot = create_screenshot_with_grid(100)
   screenshot.save('chromium-nix-screenshots/posh-1.png')
 
-  # Type in github url into bar
+  # Type in url.
   login_page = get_from_viatuix_config('viatuix.json', 'url2')
   pyautogui.moveTo(200, 75)
   pyautogui.click()
@@ -51,32 +51,23 @@ if __name__ == '__main__':
   screenshot = create_screenshot_with_grid(100)
   screenshot.save('chromium-nix-screenshots/posh-5.png')
 
-  # Don't save password
-  pyautogui.press('esc')
+  # Don't save password, click 'Never'.
+  pyautogui.moveTo(700, 400)
   pyautogui.click()
   time.sleep(5)
   screenshot = create_screenshot_with_grid(100)
   screenshot.save('chromium-nix-screenshots/posh-6.png')
 
-  pyautogui.moveTo(700, 400)
+  # Type in other url.
+  other_page = get_from_viatuix_config('viatuix.json', 'url3')
+  pyautogui.moveTo(200, 75)
   pyautogui.click()
+  pyautogui.typewrite(other_page)
+  time.sleep(2)
+  pyautogui.press('enter')
   time.sleep(5)
   screenshot = create_screenshot_with_grid(100)
   screenshot.save('chromium-nix-screenshots/posh-7.png')
-
-  # Click on your account icon
-  pyautogui.moveTo(950, 150)
-  pyautogui.click()
-  time.sleep(5)
-  screenshot = create_screenshot_with_grid(100)
-  screenshot.save('chromium-nix-screenshots/posh-8.png')
-
-  # Click on your closet
-  pyautogui.moveTo(800, 200)
-  pyautogui.click()
-  time.sleep(5)
-  screenshot = create_screenshot_with_grid(100)
-  screenshot.save('chromium-nix-screenshots/posh-9.png')
 
   # Click on your closet
   # Change from 525 to 576 on y due to banner change.
@@ -84,42 +75,43 @@ if __name__ == '__main__':
   pyautogui.click()
   time.sleep(5)
   screenshot = create_screenshot_with_grid(100)
-  screenshot.save('chromium-nix-screenshots/posh-10.png')
+  screenshot.save('chromium-nix-screenshots/posh-8.png')
 
   # Share to followers button
-  # Change from 400 to 450 on y due to banner change.
-  pyautogui.moveTo(800, 450)
+  pyautogui.moveTo(800, 410)
   pyautogui.click()
   time.sleep(5)
   screenshot = create_screenshot_with_grid(100)
-  screenshot.save('chromium-nix-screenshots/posh-11.png')
+  screenshot.save('chromium-nix-screenshots/posh-9.png')
 
   # Share all
   pyautogui.moveTo(375, 375)
   pyautogui.click()
   time.sleep(5)
   screenshot = create_screenshot_with_grid(100)
-  screenshot.save('chromium-nix-screenshots/posh-12.png')
+  screenshot.save('chromium-nix-screenshots/posh-10.png')
 
   # Share to followers
   pyautogui.moveTo(900, 290)
   pyautogui.click()
   time.sleep(5)
   screenshot = create_screenshot_with_grid(100)
-  screenshot.save('chromium-nix-screenshots/posh-13.png')
+  screenshot.save('chromium-nix-screenshots/posh-11.png')
 
   # Monitor progress
   time.sleep(10)
   screenshot = create_screenshot_with_grid(100)
-  screenshot.save('chromium-nix-screenshots/posh-14.png')
+  screenshot.save('chromium-nix-screenshots/posh-12.png')
 
   # Format the date and time as a string in the format "yyyy-mm-dd-h-m"
+  # Get the current date and time
+  current_datetime = datetime.now()
   formatted_datetime = current_datetime.strftime("%Y-%m-%d-%H:%M:%S")
 
   screenshot.save(f"chromium-nix-screenshots/posh-{formatted_datetime}.png")
 
   # Wait until likely finished
-  time.sleep(55)
+  time.sleep(10)
   screenshot = create_screenshot_with_grid(100)
   screenshot.save(f"chromium-nix-screenshots/posh-{formatted_datetime}.png")
 
