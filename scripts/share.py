@@ -106,3 +106,14 @@ if __name__ == '__main__':
   time.sleep(5)
   screenshot = create_screenshot_with_grid(100)
   screenshot.save('chromium-nix-screenshots/posh-13.png')
+
+  # Monitor progress
+  time.sleep(10)
+  screenshot = create_screenshot_with_grid(100)
+  screenshot.save('chromium-nix-screenshots/posh-14.png')
+
+  # Wait until likely finished
+  time.sleep(55)
+  screenshot = create_screenshot_with_grid(100)
+  screenshot.save('chromium-nix-screenshots/posh-15.png')
+
