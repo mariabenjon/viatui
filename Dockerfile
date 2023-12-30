@@ -45,9 +45,14 @@ RUN git clone --depth 1 --branch master https://github.com/NixOS/nixpkgs.git && 
 # Install packages using the specific version of Nixpkgs
 # Example: installing Chromium
 RUN nix-env -f /nixpkgs -iA chromium
+RUN nix-env -f /nixpkgs -iA nodejs
+RUN nix-env -f /nixpkgs -iA tesseract
 
 # Set the working directory in the container to /app
 WORKDIR /app
+
+# To run chrome-remote-interface for debug
+RUN npm install chrome-remote-interface
 
 # Install Poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
@@ -80,11 +85,6 @@ ENV DISPLAY=:1
 
 #RUN apt-get update && apt-get install -y dbus-x11 x11-apps
 #RUN dbus-uuidgen > /var/lib/dbus/machine-id
-
-RUN nix-env -f /nixpkgs -iA nodejs
-
-# To run chrome-remote-interface for debug
-RUN npm install chrome-remote-interface
 
 EXPOSE 5900
 

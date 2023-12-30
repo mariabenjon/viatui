@@ -5,6 +5,7 @@ from datetime import datetime
 from modules.screenshot_grid import create_screenshot_with_grid
 from modules.screenshot_grid import create_screenshot
 from modules.get_from_viatuix_config import get_from_viatuix_config
+from modules.find_text_coordinates import find_text_coordinates
 
 # Set the DISPLAY environment variable if necessary
 os.environ['DISPLAY'] = ':1'
@@ -77,12 +78,34 @@ if __name__ == '__main__':
   screenshot = create_screenshot_with_grid(100)
   screenshot.save('chromium-nix-screenshots/posh-8.png')
 
-  # Share to followers button
-  pyautogui.moveTo(800, 410)
-  pyautogui.click()
-  time.sleep(5)
-  screenshot = create_screenshot_with_grid(100)
-  screenshot.save('chromium-nix-screenshots/posh-9.png')
+  # Create a no grid image to find coordinates of text using ocr
+  find_text_screenshot = 'chromium-nix-screenshots/find-text.png'
+  print(find_text_screenshot)
+  screenshot_no_grid = create_screenshot_with_grid(1000)
+  screenshot_no_grid.save(find_text_screenshot)
+  time.sleep(2)
+
+  target_text = 'Followers'
+  (target_x, target_y) = find_text_coordinates(find_text_screenshot, target_text)
+
+  if (target_x, target_y):
+      print(f"Doing ocr.\nCoordinates of '{target_text}': {target_x} {target_y}")
+      # Share to followers button
+      pyautogui.moveTo(target_x, target_y)
+      pyautogui.click()
+      print(f"Clicked coordinates ({target_x}, {target_y}).")
+      time.sleep(5)
+      screenshot = create_screenshot_with_grid(100)
+      screenshot.save('chromium-nix-screenshots/posh-9.png')
+      print(f"See screenshot chromium-nix-screenshots/posh-9.png")
+  else:
+      print(f"Ocr step failed. No '{target_text}' not found in the image\nreverting to hardcoded coordinates.")
+      # Share to followers button
+      pyautogui.moveTo(800, 450)
+      pyautogui.click()
+      time.sleep(5)
+      screenshot = create_screenshot_with_grid(100)
+      screenshot.save('chromium-nix-screenshots/posh-9.png')
 
   # Share all
   pyautogui.moveTo(375, 375)

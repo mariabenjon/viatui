@@ -10,8 +10,8 @@ include = ["modules/*"]
 python = "^3.8"
 pyautogui = "^0.9.53"
 Pillow = "^9.2.0"
-# Add other dependencies here
 python-xlib = "^0.33"
+pytesseract = "^0.3.10"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
