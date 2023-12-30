@@ -1,90 +1,24 @@
 # viatui
 
-## Overview
+Add a viatuix.json.
 
-`viatui` is an experimental project exploring the integration of Large Language Models (LLMs) with UI testing. The project aims to leverage LLMs (e.g. inference and/or embeddings using cosine similarity) to analyze screenshots of UIs, perform actions like clicking, and report on the results. This approach is at the forefront of combining AI and UI testing. The concept isn't fully fleshed out yet.
-
-## Experimental Nature
-
-- The code in `viatui` is experimental and demonstrated against the web extension for turbo-src.
-- This project is a starting point for discussions and further development in AI-driven UI testing.
-- The automated user actions and screenshots all happen in `scripts/container_screenshots.py`.
-- Nix and docker are used crudely in order to create reproducible chromium environemnts.
-- The ethos is 'get it to work, then optimize', so don't be alarmed by the insanely large docker images it prodocues, etc.
-
-## Vision
-
-- Utilize LLMs or embeddings to interpret UI elements from screenshots.
-- Automate UI interactions based on LLM analysis.
-- Develop methods that are at least an order of magnitude easier and more effective for UI testing.
-
-## Issues to overcome
-
-1. For whatever reason (e.g. dbus issues), you can't run viatui along with turbo-src in local mode. Turbosrc must be online.
-
-2. For whatever reason, turbo-src buttons don't dynamically update (must refresh), possibly due to dbus issues.
-
-3. Race conditions: a healthy delay between the launching of chromium and the starting of the script.
-
-## Raw usage
-
-I'm testing the concept on turbo-src. For your own experimental needs I suggest to modify `scripts/container_screenshots.py` for your UI tasks and screenshot tempo or edit `entrypoint.sh` to run some other script you develop. You can always just use this as inspiration or fork for your own specific needs.
+```
+{
+  "username": "<username>",
+  "password": "<password>",
+  "url2": "<login_page>"
+}
+```
 
 Build.
 
 ```
-docker build -t viatui .
+docker-compose build
 ```
 
-Run the script defined in `entrypoint.sh`, currently `scripts/container_screenshot.py`
+Run script.
 
 ```
-docker run -it \
-    -e DISPLAY=:1 \
-    --volume /tmp/.X11-unix:/tmp/.X11-unix \
-    --volume /var/run/dbus:/var/run/dbus \
-    --volume $(pwd):/app \
-    --privileged \
-    viatui
+docker-compose run -d viatui bash -c "sleep 20 && /root/.local/bin/poetry run python scripts/share.py"
 ```
 
-## Testing usage (turbo-src application)
-
-You must allow viatui to due its tasks up to repo creation. After that, the backend e2e tests can be ran.
-
-### Connecting instance
-
-1. Comment out the create user and create repo test in `turbo-src/tsrc-test`
-
-2. Run `./tsrc-dev init --testers`
-
-### Locally
-
-1. `turbosrc.config` must be in `router-client` mode.
-
-2. Run `./tsrc-dev init`
-
-3. In `viatui/scripts/container_screesnhot.py`, comment out everything beyond the creation of the repo.
-
-4. Run `docker-compose build viatui`
-
-5. Run `docker-compose run viatui`
-
-#### Connecting instance
-
-1. Run `./tsrc-dev start`
-
-2. Run `./tsrc-dev test <username> <repo> run_tests
-
-#### Locally
-
-1. In `viatui/scripts/container_screesnhot.py`, comment everything except code to refresh page and screeshot.
-
-2. Open the screenshot in `chromium-nix-screenshots/`
-
-You want to capture screenshots as the tests move along.
-
-
-## License
-
-This project is licensed under the MIT License.
