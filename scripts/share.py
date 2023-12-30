@@ -11,6 +11,8 @@ from modules.find_text_coordinates import find_text_coordinates
 os.environ['DISPLAY'] = ':1'
 
 if __name__ == '__main__':
+  ocr1 = False
+  ocr2 = False
   # Make a new browser tab
   pyautogui.hotkey('ctrl', 't')
   time.sleep(3)
@@ -69,26 +71,43 @@ if __name__ == '__main__':
   time.sleep(5)
   screenshot = create_screenshot_with_grid(100)
   screenshot.save('chromium-nix-screenshots/posh-7.png')
+  screenshot_no_grid = create_screenshot_with_grid(10000)
+  screenshot.save('chromium-nix-screenshots/posh-7-no-grid.png')
 
-  # Click on your closet
-  # Change from 525 to 576 on y due to banner change.
-  pyautogui.moveTo(850, 575)
-  pyautogui.click()
-  time.sleep(5)
-  screenshot = create_screenshot_with_grid(100)
-  screenshot.save('chromium-nix-screenshots/posh-8.png')
+  target_text = 'Seller Tools'
+  coordinates = find_text_coordinates('chromium-nix-screenshots/posh-7-no-grid.png', target_text)
+
+  if coordinates:
+      target_x, target_y = coordinates
+      print(f"Doing ocr.\nCoordinates of '{target_text}': {target_x} {target_y}")
+      # Click on sellert tools.
+      pyautogui.moveTo(target_x, target_y)
+      pyautogui.click()
+      print(f"Clicked coordinates ({target_x}, {target_y}).")
+      time.sleep(5)
+      screenshot = create_screenshot_with_grid(100)
+      screenshot.save('chromium-nix-screenshots/posh-8.png')
+      print(f"See screenshot chromium-nix-screenshots/posh-8.png")
+      ocr1 = True
+  else:
+      print(f"Ocr step failed. No '{target_text}' not found in the image\nreverting to hardcoded coordinates.")
+      # Click on sellert tools.
+      pyautogui.moveTo(850, 575)
+      pyautogui.click()
+      time.sleep(5)
+      screenshot = create_screenshot_with_grid(100)
+      screenshot.save('chromium-nix-screenshots/posh-8.png')
 
   # Create a no grid image to find coordinates of text using ocr
-  find_text_screenshot = 'chromium-nix-screenshots/find-text.png'
-  print(find_text_screenshot)
-  screenshot_no_grid = create_screenshot_with_grid(1000)
-  screenshot_no_grid.save(find_text_screenshot)
+  screenshot_no_grid = create_screenshot_with_grid(10000)
+  screenshot_no_grid.save('chromium-nix-screenshots/posh-8-no-grid.png')
   time.sleep(2)
 
   target_text = 'Followers'
-  (target_x, target_y) = find_text_coordinates(find_text_screenshot, target_text)
+  coordinates = find_text_coordinates('chromium-nix-screenshots/posh-8-no-grid.png', target_text)
 
-  if (target_x, target_y):
+  if coordinates:
+      target_x, target_y = coordinates
       print(f"Doing ocr.\nCoordinates of '{target_text}': {target_x} {target_y}")
       # Share to followers button
       pyautogui.moveTo(target_x, target_y)
@@ -98,6 +117,7 @@ if __name__ == '__main__':
       screenshot = create_screenshot_with_grid(100)
       screenshot.save('chromium-nix-screenshots/posh-9.png')
       print(f"See screenshot chromium-nix-screenshots/posh-9.png")
+      ocr2 = True
   else:
       print(f"Ocr step failed. No '{target_text}' not found in the image\nreverting to hardcoded coordinates.")
       # Share to followers button
@@ -129,8 +149,14 @@ if __name__ == '__main__':
   # Monitor progress
   time.sleep(10)
   screenshot = create_screenshot_with_grid(100)
-  screenshot.save(f"chromium-nix-screenshots/posh-{formatted_datetime}.png")
 
+  # Save results on whether automated ocr clicks worked.
+  if (ocr1 and ocr2):
+     screenshot.save(f"chromium-nix-screenshots/posh-{formatted_datetime}-ocr-worked.png")
+  elif (ocr1):
+     screenshot.save(f"chromium-nix-screenshots/posh-{formatted_datetime}-only-ocr1-worked.png")
+  elif (ocr2):
+   screenshot.save(f"chromium-nix-screenshots/posh-{formatted_datetime}-only-ocr2-worked.png")
   # Wait until likely finished
   time.sleep(20)
   screenshot = create_screenshot_with_grid(100)
